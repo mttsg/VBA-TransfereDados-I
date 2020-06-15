@@ -4,14 +4,14 @@ Private Sub Botão1_Clique()
 
 Application.ScreenUpdating = False
 
-'definição das variáveis'
+'Definição das variáveis para o código que transfere dados de planilhas para uma única planilha '
 Dim w                   As Worksheet
 Dim wnew                As Workbook
 Dim ArqParaAbrir        As Variant
 Dim A                   As Integer
 Dim NomeArquivo         As String
 
-'código transf arquivos de pasta para pasta
+'Início código transf arquivos de pasta para pasta
 
 Dim FSO As Object
 Dim sourcePath As String
@@ -19,10 +19,15 @@ Dim destinationPath As String
 Dim fileExtn As String
 
 
- 
-sourcePath = "C:\Users\Matteo\Documents\Sincronização BI e SharePoint\Instituto Maua de Tecnologia\IMO - Documentos"
-destinationPath = "C:\Users\Matteo\Documents\Sincronização BI e SharePoint\Instituto Maua de Tecnologia\IMO APP"
+ 'Aqui identificamos o caminho que o excel irá percorrer para acessar os arquivos da pasta que contém as planilhas Excel'
+sourcePath = "C:\Users\Matteo\Documents\Pasta Fonte"
 
+'Aqui identificamos o caminho que o excel irá percorrer para acessar a pasta para onde os arquivos serão transferidos '
+destinationPath = "C:\Users\Matteo\Documents\Pasta Destino"
+
+'Aqui definimos que os arquivos transferidos de uma pasta para outra serão aqueles que começam com "20" e contém ".xls" no nome'
+'Note que o asterisco significa que existem outros caracteres após o "20", porém não nos interessa identifica-los. Se a planilha começar com "20" já saberemos que se trata de um arquivo do ano de 2020 e isso que estamos procurando'
+'Note também que o asterisco é utilizado após o ".xls" para que arquivos planilha Excel de diferentes tipos possam ser transferidos. Arquivos xlsx, xlsm etc...'
 fileExtn = "20*.xls*"
 
 If Right(sourcePath, 1) <> "\" Then
