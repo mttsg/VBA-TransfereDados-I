@@ -2,6 +2,7 @@ Option Explicit
 
 Private Sub Botão1_Clique()
 
+'Essa função faz com que o usuário não veja o excel trabalhando para gerar a lista. Só aparecerá algo na tela quando tudo estiver pronto para que não fique poluido e dê um toque mais profissional'
 Application.ScreenUpdating = False
 
 'Definição das variáveis para o código que transfere dados de planilhas para uma única planilha '
@@ -30,19 +31,24 @@ destinationPath = "C:\Users\Matteo\Documents\Pasta Destino"
 'Note também que o asterisco é utilizado após o ".xls" para que arquivos planilha Excel de diferentes tipos possam ser transferidos. Arquivos xlsx, xlsm etc...'
 fileExtn = "20*.xls*"
 
+
+'Essa condição testa se o caminho do arquivo é verdadeiro e se for ele adiociona uma barra no final do seu nome para que ele seja acessível'
 If Right(sourcePath, 1) <> "\" Then
 sourcePath = sourcePath & "\"
 End If
 
+'Essa é uma função especifica que cria um objeto a ser utilizado'
+
 Set FSO = CreateObject("scripting.filesystemobject")
 
 
- 
+ 'Caso a pasta indicada no endereço da pasta não exista uma mensagem paarecerá dizendo que a pasta não existe'
 If FSO.FolderExists(sourcePath) = False Then
 MsgBox ("destinationPath & does not exist")
 Exit Sub
 End If
 
+'Caso a pasta indicada no endereço da pasta não exista uma mensagem paarecerá dizendo que a pasta não existe'
 If FSO.FolderExists(destinationPath) = False Then
 MsgBox ("sourcePath &  does not exist")
 Exit Sub
@@ -50,7 +56,7 @@ End If
 
 
 
- 
+ 'Caso a pasta indicada no endereço da pasta  exista os arquivos serão transferidos de uma para outra e uma mensagem aparecerá na tela dizendo que foram copiados'
 FSO.CopyFile Source:=sourcePath & fileExtn, Destination:=destinationPath
 MsgBox "Your files have been copied from " & sourcePath & " to " & destinationPath
 
