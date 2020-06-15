@@ -107,7 +107,7 @@ End If
  'Lbound representa o valor mais baixo da seleção e Ubound o maior valor da seleção'
  'L de Lower e U de Upper'
  
- 'Note que quando selecionamos 3 planilhas ao mesmo tempo cada uma terá uma numeração. Aprimeira selecionada será a número 1, a segunda selecionada a número 2 e assim por diante'
+ 'Note que quando selecionamos 3 planilhas ao mesmo tempo cada uma terá uma numeração. Aprimeira selecionada será a número 1, a segunda selecionada a número 2 e assim por diante. O Lbound será 1 e o Ubound será 3, por exempo.'
  'Esse loop fará com que a ação de transferencia de dados ocorra para todas as planilhas selecionadas na janela que será aberta ao clicar no botção'
  
  For A = LBound(ArqParaAbrir) To UBound(ArqParaAbrir)
@@ -115,19 +115,29 @@ End If
  'Aqui o código garante que todas as planilhas selecionadas serão nomeadas NomeArquivo uma de cada vez'
     NomeArquivo = ArqParaAbrir(A)
     
+    
+    'Aqui acionamos o comando paral abrir o arquivo Excel de nome "NomeArquivo" '
     Application.Workbooks.Open (NomeArquivo)
+    
+    'Aqui definimos wnew como sendo o arquivo Excel que está ativo no momento(selecionado)'
     Set wnew = ActiveWorkbook
     
+    'Aqui selecionamos a aba "Saidas1" da planilha, lembre-se que é da planilha que está aberta neste momento'
     Sheets("Saidas1").Activate
 
     
-    
+    'Aqui selecionamos a faixa de células A3 a AV5 da planilha ativa'
     ActiveSheet.Range("A3:AV5").Select
+    
+    'Aqui copiamos no destino a seleção de células realizada, sendo o destino a planilha que receberá os dados sempre identificando a última linha preenchida e pulando 1 linha para colar os dados em uma linha vazia, garantindo que não sobreponha dados'
     Selection.Copy Destination:=w.Cells(w.Rows.Count, 1).End(xlUp).Offset(1, 0)
     
+    'Aqui garanto que o Excel não salve mudanças de forma automática'
         ActiveWorkbook.Close savechanges:=False
         
+        'Aqui retiro alerta de "deseja salvar a planilha"'
     Application.DisplayAlerts = False
+    
     w.Cells(w.Rows.Count, 1).End(xlUp).Offset(1, 0).Select
     
         
