@@ -138,6 +138,7 @@ End If
         'Aqui retiro alerta de "deseja salvar a planilha"'
     Application.DisplayAlerts = False
     
+    'Aqui garante que após copiar os dados de uma planilha para outra a planilha deixe selecionado a célula vazia abaixo da última preenchida'
     w.Cells(w.Rows.Count, 1).End(xlUp).Offset(1, 0).Select
     
         
