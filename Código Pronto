@@ -11,7 +11,7 @@ Dim ArqParaAbrir        As Variant
 Dim A                   As Integer
 Dim NomeArquivo         As String
 
-'código transf arquivos de pasta para pasta'
+'código transf arquivos de pasta para pasta
 
 Dim FSO As Object
 Dim sourcePath As String
@@ -47,7 +47,7 @@ End If
 
  
 FSO.CopyFile Source:=sourcePath & fileExtn, Destination:=destinationPath
-
+MsgBox "Your files have been copied from " & sourcePath & " to " & destinationPath
 
 
 
