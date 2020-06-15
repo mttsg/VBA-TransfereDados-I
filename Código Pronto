@@ -12,7 +12,9 @@ Dim ArqParaAbrir        As Variant
 Dim A                   As Integer
 Dim NomeArquivo         As String
 
-'Início código transf arquivos de pasta para pasta
+'Início código transf arquivos de pasta para pasta'
+
+'Definição das variáveis'
 
 Dim FSO As Object
 Dim sourcePath As String
@@ -63,8 +65,7 @@ MsgBox "Your files have been copied from " & sourcePath & " to " & destinationPa
 
 
 
-
-'-------------------------------
+'Fim do código transf arquivos de pasta para pasta'
 
 
 'Define que a variavel ArqParaAbrir é igual a operação de abrir uma janela de seleção de arquivos que sejam ".xlsx" ou pelo menos ".xl"'
