@@ -67,11 +67,17 @@ MsgBox "Your files have been copied from " & sourcePath & " to " & destinationPa
 '-------------------------------
 
 
-'Capturar arquivos para tratamento'
+'Define que a variavel ArqParaAbrir é igual a operação de abrir uma janela de seleção de arquivos que sejam ".xlsx" ou pelo menos ".xl"'
+'Nomeia a janela aberta como "Escolher Arquivo(s)'
+'Define que podem ser escolhidos mais de um arquivo de uma vez'
+
+
 
 ArqParaAbrir = Application.GetOpenFilename("Arquivo do Excel (*.xlsx), *.xl*", _
-Title:="Escolha o arquivo a ser importado", _
+Title:="Escolher Arquivo(s)", _
 MultiSelect:=True)
+
+'Cria uma condição de que se não for um conjunto de dados em forma de matriz (tabela) e se a variável ArqParaAbrir for vazia ou não respeitar as restrições uma mensagem aparecerá dizendo que o processo foi abortado '
 
 If Not IsArray(ArqParaAbrir) Then
 
@@ -84,15 +90,29 @@ If Not IsArray(ArqParaAbrir) Then
 End If
 
 'Começa a importação dos dados'
+
+'Define a varoável w como aba "planilha1" da planilha'
  Set w = Sheets("Planilha1")
+ 
+ 'Define faixa de células a serem deletadas '
+ 'Perceba que cada vez que clicamos no botção trazemos dados de varias planilhas para uma única planilha, portanto é necessário apagar os dados antigos para transferi-los novamente junto com os dados mais recentes.'
  
  w.Range("A3:AV108576").Delete
  
+ 'A aba "Planilha1" é selecionada'
  w.Select
  
  'Loop para importação dos arquivos'
  
+ 'Lbound representa o valor mais baixo da seleção e Ubound o maior valor da seleção'
+ 'L de Lower e U de Upper'
+ 
+ 'Note que quando selecionamos 3 planilhas ao mesmo tempo cada uma terá uma numeração. Aprimeira selecionada será a número 1, a segunda selecionada a número 2 e assim por diante'
+ 'Esse loop fará com que a ação de transferencia de dados ocorra para todas as planilhas selecionadas na janela que será aberta ao clicar no botção'
+ 
  For A = LBound(ArqParaAbrir) To UBound(ArqParaAbrir)
+ 'Cria uma variável NomeArquivo e chama de ArqParaAbrir(A)'
+ 'Aqui o código garante que todas as planilhas selecionadas serão nomeadas NomeArquivo uma de cada vez'
     NomeArquivo = ArqParaAbrir(A)
     
     Application.Workbooks.Open (NomeArquivo)
