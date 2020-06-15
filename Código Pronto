@@ -1,0 +1,113 @@
+Option Explicit
+
+Private Sub Botão1_Clique()
+
+Application.ScreenUpdating = False
+
+'definição das variáveis'
+Dim w                   As Worksheet
+Dim wnew                As Workbook
+Dim ArqParaAbrir        As Variant
+Dim A                   As Integer
+Dim NomeArquivo         As String
+
+'código transf arquivos de pasta para pasta'
+
+Dim FSO As Object
+Dim sourcePath As String
+Dim destinationPath As String
+Dim fileExtn As String
+
+
+ 
+sourcePath = "C:\Users\Matteo\Documents\Sincronização BI e SharePoint\Instituto Maua de Tecnologia\IMO - Documentos"
+destinationPath = "C:\Users\Matteo\Documents\Sincronização BI e SharePoint\Instituto Maua de Tecnologia\IMO APP"
+
+fileExtn = "20*.xls*"
+
+If Right(sourcePath, 1) <> "\" Then
+sourcePath = sourcePath & "\"
+End If
+
+Set FSO = CreateObject("scripting.filesystemobject")
+
+
+ 
+If FSO.FolderExists(sourcePath) = False Then
+MsgBox ("destinationPath & does not exist")
+Exit Sub
+End If
+
+If FSO.FolderExists(destinationPath) = False Then
+MsgBox ("sourcePath &  does not exist")
+Exit Sub
+End If
+
+
+
+ 
+FSO.CopyFile Source:=sourcePath & fileExtn, Destination:=destinationPath
+
+
+
+
+
+
+'-------------------------------
+
+
+'Capturar arquivos para tratamento'
+
+ArqParaAbrir = Application.GetOpenFilename("Arquivo do Excel (*.xlsx), *.xl*", _
+Title:="Escolha o arquivo a ser importado", _
+MultiSelect:=True)
+
+If Not IsArray(ArqParaAbrir) Then
+
+    If ArqParaAbrir = "" Or ArqParaAbrir = False Then
+        MsgBox "Processo abortado, nenhum arquivo escolhido", vbOKOnly, "Processo Abortado"
+        Exit Sub
+    End If
+    
+    
+End If
+
+'Começa a importação dos dados'
+ Set w = Sheets("Planilha1")
+ 
+ w.Range("A3:AV108576").Delete
+ 
+ w.Select
+ 
+ 'Loop para importação dos arquivos'
+ 
+ For A = LBound(ArqParaAbrir) To UBound(ArqParaAbrir)
+    NomeArquivo = ArqParaAbrir(A)
+    
+    Application.Workbooks.Open (NomeArquivo)
+    Set wnew = ActiveWorkbook
+    
+    Sheets("Saidas1").Activate
+
+    
+    
+    ActiveSheet.Range("A3:AV5").Select
+    Selection.Copy Destination:=w.Cells(w.Rows.Count, 1).End(xlUp).Offset(1, 0)
+    
+        ActiveWorkbook.Close savechanges:=False
+        
+    Application.DisplayAlerts = False
+    w.Cells(w.Rows.Count, 1).End(xlUp).Offset(1, 0).Select
+    
+        
+        
+Next A
+    
+
+Application.ScreenUpdating = True
+
+MsgBox "Processo concluído!"
+
+
+
+End Sub
